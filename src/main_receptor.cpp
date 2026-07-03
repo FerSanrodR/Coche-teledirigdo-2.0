@@ -44,9 +44,9 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   PaqueteControl datos = comm.getLastReceivedPacket();
   
   // Imprimir datos para depuración
-  Serial.print("Recibido - Acel: ");
+  Serial.print("[COCHE] Recibido Acel=");
   Serial.print(datos.aceleracion);
-  Serial.print(" | Dir: ");
+  Serial.print(" Dir=");
   Serial.println(datos.direccion);
 }
 
@@ -108,8 +108,8 @@ void setup() {
   Serial.println(WiFi.macAddress());
   
   blinkStartupIndicator();
-  Serial.println("Receptor inicializado correctamente");
-  Serial.println("Esperando paquetes del mando...");
+  Serial.println("[COCHE] Receptor listo");
+  Serial.println("[COCHE] Esperando paquetes...");
 }
 
 // ============================================================
@@ -129,6 +129,11 @@ void loop() {
     
     // Controlar el servomotor con la dirección
     servo.setAngle(datos.direccion);
+
+    Serial.print("[COCHE] Aplicando Acel=");
+    Serial.print(datos.aceleracion);
+    Serial.print(" Dir=");
+    Serial.println(datos.direccion);
     
     // Marcar datos como leídos
     comm.clearNewDataFlag();

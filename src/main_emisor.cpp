@@ -26,7 +26,7 @@ void blinkStartupIndicator() {
   digitalWrite(LED_PIN, HIGH);
 }
 
-// Dirección MAC del receptor (coche) - CAMBIAR POR LA MAC REAL
+// Dirección MAC del receptor (coche)
 uint8_t receptorMacAddress[] = {0xD4, 0xE9, 0xF4, 0xB5, 0x78, 0xBC};
 
 // ============================================================
@@ -34,9 +34,9 @@ uint8_t receptorMacAddress[] = {0xD4, 0xE9, 0xF4, 0xB5, 0x78, 0xBC};
 // ============================================================
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   if (status == ESP_NOW_SEND_SUCCESS) {
-    Serial.println("Paquete enviado con éxito");
+    Serial.println("[MANDO] Paquete enviado");
   } else {
-    Serial.println("Error al enviar el paquete");
+    Serial.println("[MANDO] Error al enviar");
   }
 }
 
@@ -76,7 +76,7 @@ void setup() {
   Serial.println(WiFi.macAddress());
   
   blinkStartupIndicator();
-  Serial.println("Emisor inicializado correctamente");
+  Serial.println("[MANDO] Emisor listo");
 }
 
 // ============================================================
@@ -87,9 +87,9 @@ void loop() {
   PaqueteControl paquete = joystick.readAll();
   
   // Imprimir valores para depuración
-  Serial.print("Aceleración: ");
+  Serial.print("[MANDO] Acel=");
   Serial.print(paquete.aceleracion);
-  Serial.print(" | Dirección: ");
+  Serial.print(" Dir=");
   Serial.println(paquete.direccion);
   
   // Enviar paquete al coche

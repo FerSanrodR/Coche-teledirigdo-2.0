@@ -22,8 +22,10 @@
 // ============================================================
 // ZONA MUERTA (DEADZONE)
 // ============================================================
-#define DEADZONE_MIN 1900
-#define DEADZONE_MAX 2200
+// Se amplía ligeramente para que el mando responda mejor en placas
+// o joysticks con el centro un poco desplazado.
+#define DEADZONE_MIN 1500
+#define DEADZONE_MAX 2500
 
 // ============================================================
 // RANGOS DE MAPEO
@@ -40,6 +42,7 @@
 // ============================================================
 // PINES DEL MANDO (EMISOR)
 // ============================================================
+// Se usan pines ADC que funcionan bien con ESP32 en módulos básicos.
 #define PIN_ACCELERATION 32  // Eje Y del joystick izquierdo
 #define PIN_STEERING     33  // Eje X del joystick derecho
 
@@ -60,6 +63,13 @@
 #define PWM_FREQ 5000
 #define PWM_RESOLUTION 8
 #define PWM_CHANNEL 0
+
+// ============================================================
+// CONFIGURACIÓN SERVOMOTOR
+// ============================================================
+#define SERVO_PWM_FREQUENCY 50
+#define SERVO_MIN_PULSE_WIDTH 500
+#define SERVO_MAX_PULSE_WIDTH 2400
 
 // ============================================================
 // CONFIGURACIÓN FAILSAFE

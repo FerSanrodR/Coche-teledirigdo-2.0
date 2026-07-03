@@ -4,6 +4,7 @@
  */
 
 #include "EspNowComm.h"
+#include <esp_wifi.h>
 
 // Inicializar puntero estático
 EspNowComm* EspNowComm::instance = nullptr;
@@ -21,8 +22,13 @@ EspNowComm::EspNowComm() {
 bool EspNowComm::begin(DeviceType type) {
   deviceType = type;
   
-  // Inicializar Wi-Fi en modo estación
+  // Limpiar cualquier estado previo de Wi-Fi/ESP-NOW
+  WiFi.disconnect(true);
   WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false);
+
+  // Fijar un canal Wi-Fi explícito para que ambos ESP32 se encuentren
+  esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE);
   
   // Inicializar ESP-NOW
   if (esp_now_init() != ESP_OK) {
@@ -46,8 +52,9 @@ bool EspNowComm::registerPeer(const uint8_t *macAddress) {
   
   // Copiar dirección MAC
   memcpy(peerInfo.peer_addr, macAddress, 6);
-  peerInfo.channel = 0;
+  peerInfo.channel = 1;
   peerInfo.encrypt = false;
+  peerInfo.ifidx = WIFI_IF_STA;
   
   // Registrar peer
   if (esp_now_add_peer(&peerInfo) != ESP_OK) {

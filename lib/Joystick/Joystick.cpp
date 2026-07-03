@@ -13,12 +13,10 @@ Joystick::Joystick() {
 void Joystick::begin() {
   pinMode(PIN_ACCELERATION, INPUT);
   pinMode(PIN_STEERING, INPUT);
-  
-  // Configurar resolución del ADC a 12 bits
+
+  // Configuración simple para lectura analógica estable
   analogReadResolution(12);
-  
-  // Configurar atenuación del ADC a 11dB (permite lecturas hasta 3.3V)
-  analogSetAttenuation(ADC_ATTENUATION);
+  analogSetAttenuation(ADC_11db);
 }
 
 // Leer y procesar el eje de aceleración
@@ -69,17 +67,15 @@ int16_t Joystick::mapAcceleration(int16_t rawValue) {
 
 // Mapear valor de dirección
 int16_t Joystick::mapSteering(int16_t rawValue) {
-  // Aplicar zona muerta (centro es 90 para dirección)
+  // Aplicar zona muerta: si está en el centro, devolver 90
   int16_t processedValue = applyDeadzone(rawValue, STEER_CENTER);
-  
-  // Si está en zona muerta, devolver 90
   if (processedValue == STEER_CENTER) {
     return STEER_CENTER;
   }
-  
-  // Mapear de 0-4095 a 0-180
+
+  // Mapear de 0-4095 a 0-180, con el centro en 90
   int16_t mappedValue = map(rawValue, 0, ADC_RESOLUTION, STEER_MIN, STEER_MAX);
-  
-  // Limitar al rango válido
+
+  // Limitar al rango válido y mantener el centro en 90
   return constrain(mappedValue, STEER_MIN, STEER_MAX);
 }
