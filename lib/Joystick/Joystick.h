@@ -7,7 +7,7 @@
 #define JOYSTICK_H
 
 #include <Arduino.h>
-#include "../config.h"
+#include "config.h"
 
 class Joystick {
 public:

@@ -4,9 +4,9 @@
  */
 
 #include <Arduino.h>
-#include "../include/config.h"
-#include "../lib/Joystick/Joystick.h"
-#include "../lib/Comunicacion/EspNowComm.h"
+#include "config.h"
+#include "Joystick.h"
+#include "EspNowComm.h"
 
 // ============================================================
 // OBJETOS GLOBALES

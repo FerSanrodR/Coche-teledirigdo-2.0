@@ -4,10 +4,10 @@
  */
 
 #include <Arduino.h>
-#include "../include/config.h"
-#include "../lib/Traccion/Motor.h"
-#include "../lib/Direccion/ServoCtrl.h"
-#include "../lib/Comunicacion/EspNowComm.h"
+#include "config.h"
+#include "Motor.h"
+#include "ServoCtrl.h"
+#include "EspNowComm.h"
 
 // ============================================================
 // OBJETOS GLOBALES

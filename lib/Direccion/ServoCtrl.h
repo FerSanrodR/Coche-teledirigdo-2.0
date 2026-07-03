@@ -8,7 +8,7 @@
 
 #include <Arduino.h>
 #include <ESP32Servo.h>
-#include "../config.h"
+#include "config.h"
 
 class ServoCtrl {
 public:
