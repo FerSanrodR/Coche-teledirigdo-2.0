@@ -16,6 +16,18 @@ Motor motor;
 ServoCtrl servo;
 EspNowComm comm;
 
+const int LED_PIN = 2;
+
+void blinkStartupIndicator() {
+  for (int i = 0; i < 2; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    delay(250);
+    digitalWrite(LED_PIN, LOW);
+    delay(250);
+  }
+  digitalWrite(LED_PIN, HIGH);
+}
+
 // Variables para failsafe
 unsigned long ultimoPaqueteRecibido = 0;
 bool signalLost = false;
@@ -67,6 +79,9 @@ void verificarFailsafe() {
 // CONFIGURACIÓN INICIAL
 // ============================================================
 void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
+
   // Inicializar monitor serie
   Serial.begin(SERIAL_BAUDRATE);
   
@@ -85,6 +100,14 @@ void setup() {
   // Establecer callback de recepción
   comm.setOnDataRecvCallback(OnDataRecv);
   
+  // Imprimir identificación clara del receptor
+  Serial.println("================================");
+  Serial.println("DISPOSITIVO: COCHE (RECEPTOR)");
+  Serial.println("================================");
+  Serial.print("MAC: ");
+  Serial.println(WiFi.macAddress());
+  
+  blinkStartupIndicator();
   Serial.println("Receptor inicializado correctamente");
   Serial.println("Esperando paquetes del mando...");
 }

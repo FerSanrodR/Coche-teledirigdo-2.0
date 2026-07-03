@@ -14,8 +14,20 @@
 Joystick joystick;
 EspNowComm comm;
 
+const int LED_PIN = 2;
+
+void blinkStartupIndicator() {
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    delay(150);
+    digitalWrite(LED_PIN, LOW);
+    delay(150);
+  }
+  digitalWrite(LED_PIN, HIGH);
+}
+
 // Dirección MAC del receptor (coche) - CAMBIAR POR LA MAC REAL
-uint8_t receptorMacAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+uint8_t receptorMacAddress[] = {0xD4, 0xE9, 0xF4, 0xB5, 0x78, 0xBC};
 
 // ============================================================
 // CALLBACK DE ENVÍO DE DATOS
@@ -32,6 +44,9 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 // CONFIGURACIÓN INICIAL
 // ============================================================
 void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
+
   // Inicializar monitor serie
   Serial.begin(SERIAL_BAUDRATE);
   
@@ -53,6 +68,14 @@ void setup() {
   // Establecer callback de envío
   comm.setOnDataSentCallback(OnDataSent);
   
+  // Imprimir identificación clara del emisor
+  Serial.println("================================");
+  Serial.println("DISPOSITIVO: MANDO (EMISOR)");
+  Serial.println("================================");
+  Serial.print("MAC: ");
+  Serial.println(WiFi.macAddress());
+  
+  blinkStartupIndicator();
   Serial.println("Emisor inicializado correctamente");
 }
 
