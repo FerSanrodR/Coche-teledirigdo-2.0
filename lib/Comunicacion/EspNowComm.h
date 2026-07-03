@@ -9,7 +9,7 @@
 #include <Arduino.h>
 #include <esp_now.h>
 #include <WiFi.h>
-#include "config.h"
+#include "../../include/config.h"
 
 // Tipo de dispositivo: EMISOR o RECEPTOR
 enum DeviceType {
